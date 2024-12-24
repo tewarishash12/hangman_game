@@ -44,7 +44,7 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                             <button
                                 key={index}
                                 className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives===0 || checkWin ? 
+                                    ${lives<=0 || checkWin ? 
                                         "bg-gray-500 cursor-not-allowed" : 
                                         wrongGuesses.includes(letter) || blanks.includes(letter)
                                         ? "bg-gray-500 cursor-not-allowed"

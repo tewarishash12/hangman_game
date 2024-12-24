@@ -40,7 +40,7 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                     </div>
 
                     <div className="grid grid-cols-7 gap-4">
-                        {virtualKeyboard.split("").map((letter, index) => (
+                        {lives>0 && (virtualKeyboard.split("").map((letter, index) => (
                             <button
                                 key={index}
                                 className={`py-2 px-4 rounded-md font-semibold
@@ -56,7 +56,7 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                             >
                                 {letter}
                             </button>
-                        ))}
+                        )))}
                     </div>
 
                     <div className="mt-8 text-center">

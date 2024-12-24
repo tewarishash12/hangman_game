@@ -33,13 +33,17 @@ const gameSlice = createSlice({
         currentWord:null,
         blanks:"",
         lives: 4,
-        wrongGuesses: []
+        wrongGuesses: [],
+        isGameWon: false
     },
     reducers: {
         display_guessing_word: (state) =>{
             const randomWord = state.gameQues[Math.floor(Math.random()*state.gameQues.length)]
             state.currentWord = randomWord;
             state.blanks = "_ ".repeat(randomWord.word.length).trim();
+            state.wrongGuesses=[];
+            state.isGameWon = false;
+            state.lives = 4;
         },
         check_word_guess: (state,{payload}) =>{
             if(state.currentWord.word.includes(payload.word)){
@@ -51,20 +55,18 @@ const gameSlice = createSlice({
                         blankArray[index] = payload.word;
                 });
                 state.blanks = blankArray.join(' ');
+                if(!state.blanks.includes("_")){
+                    state.isGameWon = true;
+                }
             } else {
                 if(!state.wrongGuesses.includes(payload.word)){
                     state.lives -= 1;
                     state.wrongGuesses.push(payload.word);
                 }
             }
-        },
-        check_win_condition: (state, {payload}) =>{
-            if(state.lives !==0 && payload.blanks === state.currentWord){
-
-            }
         }
     }
 })
 
-export const { display_guessing_word,check_word_guess } = gameSlice.actions;
+export const { display_guessing_word, check_word_guess } = gameSlice.actions;
 export default gameSlice.reducer

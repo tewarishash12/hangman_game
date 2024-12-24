@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from "react-redux"
 import { display_guessing_word, check_word_guess } from "../slices/gameSlice";
 
 function Hangman({ isCollapsed, setIsCollapsed }) {
-    const virtualKeyboard = "qwertyuiopasdfghjklzxcvbnm";
     const dispatch = useDispatch();
+    const virtualKeyboard = "qwertyuiopasdfghjklzxcvbnm";
     const currentWord = useSelector((state) => state.game.currentWord);
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
     const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
+    const checkWin = useSelector((state) => state.game.isGameWon);
 
     if (!currentWord) {
         dispatch(display_guessing_word());
@@ -43,7 +44,7 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                             <button
                                 key={index}
                                 className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives===0 ? 
+                                    ${lives===0 || checkWin ? 
                                         "bg-gray-500 cursor-not-allowed" : 
                                         wrongGuesses.includes(letter) || blanks.includes(letter)
                                         ? "bg-gray-500 cursor-not-allowed"
@@ -64,6 +65,18 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                                 <p className="text-red-500 text-2xl font-bold">Game Over! The word was {currentWord.word}.</p>
                                 <button
                                     className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
+                                    onClick={()=>dispatch(display_guessing_word())}
+                                >
+                                    Play Again
+                                </button>
+                            </>
+                        }
+                        {checkWin &&
+                            <>
+                                <p className="text-blue-500 text-2xl font-bold">Congrats you guessed the correct word</p>
+                                <button
+                                    className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
+                                    onClick={()=>dispatch(display_guessing_word())}
                                 >
                                     Play Again
                                 </button>

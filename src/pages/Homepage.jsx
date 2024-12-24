@@ -20,7 +20,6 @@ const HomePage = ({ isCollapsed, setIsCollapsed }) => {
                                 <li>Start with <span className="text-yellow-500">3 lives</span>.</li>
                                 <li>Earn <span className="text-green-500">+1 life</span> for each correct guess.</li>
                                 <li>Maintain a high score to compete with others.</li>
-                                <li>Only vowels are displayed to help you guess the word.</li>
                             </ul>
                         </div>
 

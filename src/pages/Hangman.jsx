@@ -40,7 +40,7 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                     </div>
 
                     <div className="grid grid-cols-7 gap-4">
-                        {lives>0 && (virtualKeyboard.split("").map((letter, index) => (
+                        {virtualKeyboard.split("").map((letter, index) => (
                             <button
                                 key={index}
                                 className={`py-2 px-4 rounded-md font-semibold
@@ -52,11 +52,11 @@ function Hangman({ isCollapsed, setIsCollapsed }) {
                                     }`}
                                 value={letter}
                                 onClick={(e) => guessedWord(e.target.value)}
-                                disabled={wrongGuesses.includes(letter) || blanks.includes(letter)}
+                                disabled={lives<=0 || checkWin ? virtualKeyboard.includes(letter) : wrongGuesses.includes(letter) || blanks.includes(letter)}
                             >
                                 {letter}
                             </button>
-                        )))}
+                        ))}
                     </div>
 
                     <div className="mt-8 text-center">

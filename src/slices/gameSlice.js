@@ -6,14 +6,12 @@ const gameSlice = createSlice({
         blanks:"",
         lives: 4,
         wrongGuesses: [],
-        isGameWon: false
     },
     reducers: {
         initialize_blanks: (state, {payload}) =>{
             state.blanks = "_ ".repeat(payload.currentWord.length).trim();
             state.lives = 4;
             state.wrongGuesses = [];
-            state.isGameWon = false;
         },
         check_word_guess: (state,{payload}) =>{
             if(payload.currentWord.includes(payload.guessedLetter)){

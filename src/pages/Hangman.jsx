@@ -10,7 +10,6 @@ function Hangman() {
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
     const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
-    const checkWin = useSelector((state) => state.game.isGameWon);
 
     if (!currentWord) {
         dispatch(display_guessing_word());
@@ -46,7 +45,7 @@ function Hangman() {
                                 <button
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives <= 0 || checkWin
+                                    ${lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "bg-gray-500 cursor-not-allowed"
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
@@ -55,7 +54,7 @@ function Hangman() {
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
                                     disabled={
-                                        lives <= 0 || checkWin
+                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? virtualKeyboard.includes(letter)
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                     }
@@ -70,7 +69,7 @@ function Hangman() {
                                 <button
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
-                                        ${lives <= 0 || checkWin
+                                        ${lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "bg-gray-500 cursor-not-allowed"
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
@@ -79,7 +78,7 @@ function Hangman() {
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
                                     disabled={
-                                        lives <= 0 || checkWin
+                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? virtualKeyboard.includes(letter)
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                     }
@@ -94,7 +93,7 @@ function Hangman() {
                                 <button
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives <= 0 || checkWin
+                                    ${lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "bg-gray-500 cursor-not-allowed"
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
@@ -103,7 +102,7 @@ function Hangman() {
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
                                     disabled={
-                                        lives <= 0 || checkWin
+                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? virtualKeyboard.includes(letter)
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                     }
@@ -115,7 +114,7 @@ function Hangman() {
                     </div>
 
                     <div className="mt-8 text-center">
-                        {lives === 0 &&
+                        {lives === 0 && blanks.includes("_") &&
                             <>
                                 <p className="text-red-500 text-2xl font-bold">Game Over! The word was {currentWord.word}.</p>
                                 <button
@@ -129,7 +128,7 @@ function Hangman() {
                                 </button>
                             </>
                         }
-                        {checkWin &&
+                        {lives>0 && !blanks.includes("_") &&
                             <>
                                 <p className="text-blue-500 text-2xl font-bold">Congrats you guessed the correct word</p>
                                 <button

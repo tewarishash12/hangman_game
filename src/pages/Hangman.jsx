@@ -5,7 +5,6 @@ import { initialize_blanks, check_word_guess, check_game_won } from "../slices/g
 
 function Hangman() {
     const dispatch = useDispatch();
-    const virtualKeyboard = "qwertyuiopasdfghjklzxcvbnm";
     const currentWord = useSelector((state) => state.word.currentWord);
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
@@ -61,7 +60,7 @@ function Hangman() {
                                     onClick={(e) => guessedLetter(e.target.value)}
                                     disabled={
                                         lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? virtualKeyboard.includes(letter)
+                                            ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                     }
                                 >
@@ -85,7 +84,7 @@ function Hangman() {
                                     onClick={(e) => guessedLetter(e.target.value)}
                                     disabled={
                                         lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? virtualKeyboard.includes(letter)
+                                            ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                     }
                                 >
@@ -109,7 +108,7 @@ function Hangman() {
                                     onClick={(e) => guessedLetter(e.target.value)}
                                     disabled={
                                         lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? virtualKeyboard.includes(letter)
+                                            ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
                                             : wrongGuesses.includes(letter) || blanks.includes(letter)
                                     }
                                 >

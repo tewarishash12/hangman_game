@@ -1,16 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
+import gameQues from "./wordDatabase";
 
 const gameSlice = createSlice({
     name: "game",
     initialState: {
+        currentWord: null,
         blanks:"",
         lives: 4,
         wrongGuesses: [],
         score: 0
     },
     reducers: {
-        initialize_blanks: (state, {payload}) =>{
-            state.blanks = "_ ".repeat(payload.currentWord.length).trim();
+        initialize_game: (state) =>{
+            const randomWord = gameQues[Math.floor(Math.random()*gameQues.length)]
+            state.currentWord = randomWord;
+            const blankArray = Array(state.currentWord.word.length).fill("_");
+            state.blanks = blankArray.join(" ");
             if(state.lives===0){
                 state.score = 0;
                 state.lives = 4;
@@ -20,9 +25,9 @@ const gameSlice = createSlice({
             state.wrongGuesses = [];
         },
         check_word_guess: (state,{payload}) =>{
-            if(payload.currentWord.includes(payload.guessedLetter)){
+            if(state.currentWord.word.includes(payload.guessedLetter)){
                 const blankArray = state.blanks.split(" ");
-                const activeWord = payload.currentWord.split("");
+                const activeWord = state.currentWord.word.split("");
 
                 activeWord.forEach((char, index) => {
                     if(char === payload.guessedLetter)
@@ -45,5 +50,5 @@ const gameSlice = createSlice({
     }
 })
 
-export const { initialize_blanks,check_word_guess,check_game_won } = gameSlice.actions;
+export const { initialize_game,check_word_guess,check_game_won } = gameSlice.actions;
 export default gameSlice.reducer

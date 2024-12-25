@@ -1,24 +1,21 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { display_guessing_word } from "../slices/wordSlice"
-import { initialize_blanks, check_word_guess, check_game_won } from "../slices/gameSlice";
+import { initialize_game, check_word_guess, check_game_won } from "../slices/gameSlice";
 
 function Hangman() {
     const dispatch = useDispatch();
-    const currentWord = useSelector((state) => state.word.currentWord);
+    const currentWord = useSelector((state) => state.game.currentWord);
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
     const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
     const score = useSelector((state)=> state.game.score)
 
     if (!currentWord) {
-        dispatch(display_guessing_word());
-    } else if (blanks === "") {
-        dispatch(initialize_blanks({ currentWord: currentWord.word }))
+        dispatch(initialize_game());
     }
 
     function guessedLetter(letter) {
-        dispatch(check_word_guess({ currentWord: currentWord.word, guessedLetter: letter }));
+        dispatch(check_word_guess({ guessedLetter: letter }));
         dispatch(check_game_won())
     }
 
@@ -125,8 +122,7 @@ function Hangman() {
                                 <button
                                     className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
                                     onClick={() => {
-                                        dispatch(display_guessing_word())
-                                        dispatch(initialize_blanks({ currentWord: currentWord.word }))
+                                        dispatch(initialize_game())
                                     }}
                                 >
                                     Play Again
@@ -139,8 +135,7 @@ function Hangman() {
                                 <button
                                     className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
                                     onClick={() => {
-                                        dispatch(display_guessing_word())
-                                        dispatch(initialize_blanks({ currentWord: currentWord.word }))
+                                        dispatch(initialize_game())
                                     }}
                                 >
                                     Play Again

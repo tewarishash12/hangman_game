@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch,useSelector } from 'react-redux';
-import { display_guessing_word } from "../slices/wordSlice"
-import { initialize_blanks } from "../slices/gameSlice";
+import { useDispatch } from 'react-redux';
+import { initialize_game } from "../slices/gameSlice";
 
 
 function HomePage() {
     const dispatch = useDispatch();
-    const currentWord = useSelector((state) => state.word.currentWord);
 
     return (
         <div className="flex h-full">
@@ -33,8 +31,7 @@ function HomePage() {
                                 to='/playgame'
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full text-xl transition-all duration-300"
                                 onClick={() => {
-                                    dispatch(display_guessing_word())
-                                    dispatch(initialize_blanks({ currentWord: currentWord.word }))
+                                    dispatch(initialize_game())
                                 }}
                             >
                                 Play Game

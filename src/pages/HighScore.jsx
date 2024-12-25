@@ -1,10 +1,9 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar'
 
-function HighScore({isCollapsed, setIsCollapsed}) {
+function HighScore() {
     return (
         <div>
-            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+            
         </div>
     )
 }

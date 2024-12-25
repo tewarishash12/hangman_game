@@ -1,12 +1,10 @@
 import React from 'react';
-import Sidebar from '../components/Sidebar';
 import { Link } from 'react-router-dom';
 
-const HomePage = ({ isCollapsed, setIsCollapsed }) => {
+function HomePage() {
     return (
-        <div className="flex">
-            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-            <main className="flex-1 bg-gray-900 text-white p-8 overflow-auto">
+        <div className="flex h-full">
+            <main className="flex-1 bg-gray-900 text-white p-8 overflow-auto h-full">
                 <div className="container mx-auto">
                     <div className="flex flex-col items-center justify-center h-full">
                         <h1 className="text-5xl font-extrabold text-center mb-8">Welcome to Hangman Game</h1>

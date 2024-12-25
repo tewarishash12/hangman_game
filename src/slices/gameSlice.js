@@ -1,72 +1,43 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const gameSlice = createSlice({
     name: "game",
     initialState: {
-        gameQues: [
-            {
-                id: nanoid(),
-                word: "planet",
-                hint: "A celestial body orbiting a star, like Earth.",
-            },
-            {
-                id: nanoid(),
-                word: "ocean",
-                hint: "A vast body of saltwater covering most of the Earth.",
-            },
-            {
-                id: nanoid(),
-                word: "puzzle",
-                hint: "A game or problem designed to test your ingenuity.",
-            },
-            {
-                id: nanoid(),
-                word: "bridge",
-                hint: "A structure built to span a physical obstacle like a river.",
-            },
-            {
-                id: nanoid(),
-                word: "guitar",
-                hint: "A musical instrument with strings, often played with a pick.",
-            }
-        ],
-        currentWord:null,
         blanks:"",
         lives: 4,
         wrongGuesses: [],
         isGameWon: false
     },
     reducers: {
-        display_guessing_word: (state) =>{
-            const randomWord = state.gameQues[Math.floor(Math.random()*state.gameQues.length)]
-            state.currentWord = randomWord;
-            state.blanks = "_ ".repeat(randomWord.word.length).trim();
-            state.wrongGuesses=[];
-            state.isGameWon = false;
+        initialize_blanks: (state, {payload}) =>{
+            state.blanks = "_ ".repeat(payload.currentWord.length).trim();
             state.lives = 4;
+            state.wrongGuesses = [];
+            state.isGameWon = false;
         },
         check_word_guess: (state,{payload}) =>{
-            if(state.currentWord.word.includes(payload.word)){
+            if(payload.currentWord.includes(payload.guessedLetter)){
                 const blankArray = state.blanks.split(" ");
-                const activeWord = state.currentWord.word.split("");
+                const activeWord = payload.currentWord.split("");
 
                 activeWord.forEach((char, index) => {
-                    if(char === payload.word)
-                        blankArray[index] = payload.word;
+                    if(char === payload.guessedLetter)
+                        blankArray[index] = payload.guessedLetter;
                 });
+
                 state.blanks = blankArray.join(' ');
                 if(!state.blanks.includes("_")){
                     state.isGameWon = true;
                 }
             } else {
-                if(!state.wrongGuesses.includes(payload.word)){
+                if(!state.wrongGuesses.includes(payload.guessedLetter)){
                     state.lives -= 1;
-                    state.wrongGuesses.push(payload.word);
+                    state.wrongGuesses.push(payload.guessedLetter);
                 }
             }
         }
     }
 })
 
-export const { display_guessing_word, check_word_guess } = gameSlice.actions;
+export const { initialize_blanks,check_word_guess } = gameSlice.actions;
 export default gameSlice.reducer

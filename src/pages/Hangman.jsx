@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { display_guessing_word } from "../slices/wordSlice"
-import { initialize_blanks,check_word_guess } from "../slices/gameSlice";
+import { initialize_blanks, check_word_guess, check_game_won } from "../slices/gameSlice";
 
 function Hangman() {
     const dispatch = useDispatch();
@@ -10,16 +10,17 @@ function Hangman() {
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
     const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
-    const checkWin = useSelector((state) => state.game.isGameWon);
+    const score = useSelector((state)=> state.game.score)
 
     if (!currentWord) {
         dispatch(display_guessing_word());
-    } else if(blanks==="") {
-        dispatch(initialize_blanks({currentWord: currentWord.word}))
+    } else if (blanks === "") {
+        dispatch(initialize_blanks({ currentWord: currentWord.word }))
     }
 
     function guessedLetter(letter) {
         dispatch(check_word_guess({ currentWord: currentWord.word, guessedLetter: letter }));
+        dispatch(check_game_won())
     }
 
     return (
@@ -40,49 +41,107 @@ function Hangman() {
                         <p>{lives} lives left to find answer</p>
                     </div>
 
-                    <div className="grid grid-cols-7 gap-4">
-                        {virtualKeyboard.split("").map((letter, index) => (
-                            <button
-                                key={index}
-                                className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives<=0 || checkWin ? 
-                                        "bg-gray-500 cursor-not-allowed" : 
-                                        wrongGuesses.includes(letter) || blanks.includes(letter)
-                                        ? "bg-gray-500 cursor-not-allowed"
-                                        : "bg-blue-500 hover:bg-blue-600"
-                                    }`}
-                                value={letter}
-                                onClick={(e) => guessedLetter(e.target.value)}
-                                disabled={lives<=0 || checkWin ? virtualKeyboard.includes(letter) : wrongGuesses.includes(letter) || blanks.includes(letter)}
-                            >
-                                {letter}
-                            </button>
-                        ))}
+                    <div className="mb-4">
+                        <p>Score: {score}</p>
+                    </div>
+
+                    <div className="flex justify-center items-center gap-y-2 flex-col h-[20vh] ">
+                        <div className="grid grid-cols-10 gap-4">
+                            {["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"].map((letter, index) => (
+                                <button
+                                    key={index}
+                                    className={`py-2 px-4 rounded-md font-semibold
+                                    ${lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                            ? "bg-gray-500 cursor-not-allowed"
+                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                                ? "bg-gray-500 cursor-not-allowed"
+                                                : "bg-blue-500 hover:bg-blue-600"
+                                        }`}
+                                    value={letter}
+                                    onClick={(e) => guessedLetter(e.target.value)}
+                                    disabled={
+                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                            ? virtualKeyboard.includes(letter)
+                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                    }
+                                >
+                                    {letter}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-9 gap-4">
+                            {["a", "s", "d", "f", "g", "h", "j", "k", "l"].map((letter, index) => (
+                                <button
+                                    key={index}
+                                    className={`py-2 px-4 rounded-md font-semibold
+                                        ${lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                            ? "bg-gray-500 cursor-not-allowed"
+                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                                ? "bg-gray-500 cursor-not-allowed"
+                                                : "bg-blue-500 hover:bg-blue-600"
+                                        }`}
+                                    value={letter}
+                                    onClick={(e) => guessedLetter(e.target.value)}
+                                    disabled={
+                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                            ? virtualKeyboard.includes(letter)
+                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                    }
+                                >
+                                    {letter}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="grid grid-cols-7 gap-4">
+                            {["z", "x", "c", "v", "b", "n", "m"].map((letter, index) => (
+                                <button
+                                    key={index}
+                                    className={`py-2 px-4 rounded-md font-semibold
+                                    ${lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                            ? "bg-gray-500 cursor-not-allowed"
+                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                                ? "bg-gray-500 cursor-not-allowed"
+                                                : "bg-blue-500 hover:bg-blue-600"
+                                        }`}
+                                    value={letter}
+                                    onClick={(e) => guessedLetter(e.target.value)}
+                                    disabled={
+                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                            ? virtualKeyboard.includes(letter)
+                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                    }
+                                >
+                                    {letter}
+                                </button>
+                            ))}
+                        </div>
                     </div>
 
                     <div className="mt-8 text-center">
-                        {lives === 0 &&
+                        {lives === 0 && blanks.includes("_") &&
                             <>
                                 <p className="text-red-500 text-2xl font-bold">Game Over! The word was {currentWord.word}.</p>
                                 <button
                                     className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
-                                    onClick={()=>{
+                                    onClick={() => {
                                         dispatch(display_guessing_word())
-                                        dispatch(initialize_blanks({currentWord: currentWord.word}))
+                                        dispatch(initialize_blanks({ currentWord: currentWord.word }))
                                     }}
                                 >
                                     Play Again
                                 </button>
                             </>
                         }
-                        {checkWin &&
+                        {lives>0 && !blanks.includes("_") &&
                             <>
                                 <p className="text-blue-500 text-2xl font-bold">Congrats you guessed the correct word</p>
                                 <button
                                     className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
-                                    onClick={()=>{
+                                    onClick={() => {
                                         dispatch(display_guessing_word())
-                                        dispatch(initialize_blanks({currentWord: currentWord.word}))
+                                        dispatch(initialize_blanks({ currentWord: currentWord.word }))
                                     }}
                                 >
                                     Play Again

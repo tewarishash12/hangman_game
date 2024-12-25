@@ -6,14 +6,18 @@ const gameSlice = createSlice({
         blanks:"",
         lives: 4,
         wrongGuesses: [],
-        isGameWon: false
+        score: 0
     },
     reducers: {
         initialize_blanks: (state, {payload}) =>{
             state.blanks = "_ ".repeat(payload.currentWord.length).trim();
-            state.lives = 4;
+            if(state.lives===0){
+                state.score = 0;
+                state.lives = 4;
+            } else if(state.score>0) {
+                state.lives += 1;
+            }
             state.wrongGuesses = [];
-            state.isGameWon = false;
         },
         check_word_guess: (state,{payload}) =>{
             if(payload.currentWord.includes(payload.guessedLetter)){
@@ -26,18 +30,20 @@ const gameSlice = createSlice({
                 });
 
                 state.blanks = blankArray.join(' ');
-                if(!state.blanks.includes("_")){
-                    state.isGameWon = true;
-                }
             } else {
                 if(!state.wrongGuesses.includes(payload.guessedLetter)){
                     state.lives -= 1;
                     state.wrongGuesses.push(payload.guessedLetter);
                 }
             }
+        },
+        check_game_won: (state) =>{
+            if(!state.blanks.includes("_")){
+                state.score += 1;
+            }
         }
     }
 })
 
-export const { initialize_blanks,check_word_guess } = gameSlice.actions;
+export const { initialize_blanks,check_word_guess,check_game_won } = gameSlice.actions;
 export default gameSlice.reducer

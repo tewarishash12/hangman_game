@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { display_guessing_word } from "../slices/wordSlice"
-import { initialize_blanks, check_word_guess } from "../slices/gameSlice";
+import { initialize_blanks, check_word_guess, check_game_won } from "../slices/gameSlice";
 
 function Hangman() {
     const dispatch = useDispatch();
@@ -10,6 +10,7 @@ function Hangman() {
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
     const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
+    const score = useSelector((state)=> state.game.score)
 
     if (!currentWord) {
         dispatch(display_guessing_word());
@@ -19,6 +20,7 @@ function Hangman() {
 
     function guessedLetter(letter) {
         dispatch(check_word_guess({ currentWord: currentWord.word, guessedLetter: letter }));
+        dispatch(check_game_won())
     }
 
     return (
@@ -37,6 +39,10 @@ function Hangman() {
 
                     <div className="mb-6">
                         <p>{lives} lives left to find answer</p>
+                    </div>
+
+                    <div className="mb-4">
+                        <p>Score: {score}</p>
                     </div>
 
                     <div className="flex justify-center items-center gap-y-2 flex-col h-[20vh] ">

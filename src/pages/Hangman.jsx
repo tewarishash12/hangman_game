@@ -7,8 +7,8 @@ function Hangman() {
     const currentWord = useSelector((state) => state.game.currentWord);
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
-    const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
-    const score = useSelector((state)=> state.game.score)
+    const allGuesses = useSelector((state) => state.game.allGuesses);
+    const score = useSelector((state) => state.game.score)
 
     if (!currentWord) {
         dispatch(initialize_game());
@@ -47,19 +47,13 @@ function Hangman() {
                                 <button
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives <= 0 || (lives>0 && !blanks.includes("_"))
+                                    ${allGuesses.includes(letter)
                                             ? "bg-gray-500 cursor-not-allowed"
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
-                                                ? "bg-gray-500 cursor-not-allowed"
-                                                : "bg-blue-500 hover:bg-blue-600"
+                                            : "bg-blue-500 hover:bg-blue-600"
                                         }`}
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
-                                    disabled={
-                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
-                                    }
+                                    disabled={allGuesses.includes(letter)}
                                 >
                                     {letter}
                                 </button>
@@ -71,18 +65,13 @@ function Hangman() {
                                 <button
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
-                                        ${lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? "bg-gray-500 cursor-not-allowed"
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                        ${allGuesses.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
                                                 : "bg-blue-500 hover:bg-blue-600"
                                         }`}
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
-                                    disabled={
-                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                    disabled={allGuesses.includes(letter)
                                     }
                                 >
                                     {letter}
@@ -95,18 +84,13 @@ function Hangman() {
                                 <button
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
-                                    ${lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? "bg-gray-500 cursor-not-allowed"
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                    ${allGuesses.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
                                                 : "bg-blue-500 hover:bg-blue-600"
                                         }`}
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
-                                    disabled={
-                                        lives <= 0 || (lives>0 && !blanks.includes("_"))
-                                            ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                    disabled={allGuesses.includes(letter)
                                     }
                                 >
                                     {letter}
@@ -129,7 +113,7 @@ function Hangman() {
                                 </button>
                             </>
                         }
-                        {lives>0 && !blanks.includes("_") &&
+                        {lives > 0 && !blanks.includes("_") &&
                             <>
                                 <p className="text-blue-500 text-2xl font-bold">Congrats you guessed the correct word</p>
                                 <button

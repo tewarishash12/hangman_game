@@ -36,7 +36,10 @@ function HomePage() {
                             >
                                 Play Game
                             </Link>
-                            <Link to='/highscore' className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full text-xl transition-all duration-300">
+                            <Link 
+                            to='/highscore' 
+                            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full text-xl transition-all duration-300"
+                            >
                                 View High Scores
                             </Link>
                         </div>

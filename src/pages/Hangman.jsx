@@ -7,7 +7,7 @@ function Hangman() {
     const currentWord = useSelector((state) => state.game.currentWord);
     const blanks = useSelector((state) => state.game.blanks);
     const lives = useSelector((state) => state.game.lives);
-    const wrongGuesses = useSelector((state) => state.game.wrongGuesses);
+    const allGuesses = useSelector((state) => state.game.allGuesses);
     const score = useSelector((state)=> state.game.score)
 
     if (!currentWord) {
@@ -49,7 +49,7 @@ function Hangman() {
                                     className={`py-2 px-4 rounded-md font-semibold
                                     ${lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "bg-gray-500 cursor-not-allowed"
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                            : allGuesses.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
                                                 : "bg-blue-500 hover:bg-blue-600"
                                         }`}
@@ -58,7 +58,7 @@ function Hangman() {
                                     disabled={
                                         lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                            : allGuesses.includes(letter)
                                     }
                                 >
                                     {letter}
@@ -73,7 +73,7 @@ function Hangman() {
                                     className={`py-2 px-4 rounded-md font-semibold
                                         ${lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "bg-gray-500 cursor-not-allowed"
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                            : allGuesses.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
                                                 : "bg-blue-500 hover:bg-blue-600"
                                         }`}
@@ -82,7 +82,7 @@ function Hangman() {
                                     disabled={
                                         lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                            : allGuesses.includes(letter)
                                     }
                                 >
                                     {letter}
@@ -97,7 +97,7 @@ function Hangman() {
                                     className={`py-2 px-4 rounded-md font-semibold
                                     ${lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "bg-gray-500 cursor-not-allowed"
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                            : allGuesses.includes(letter)
                                                 ? "bg-gray-500 cursor-not-allowed"
                                                 : "bg-blue-500 hover:bg-blue-600"
                                         }`}
@@ -106,7 +106,7 @@ function Hangman() {
                                     disabled={
                                         lives <= 0 || (lives>0 && !blanks.includes("_"))
                                             ? "qwertyuiopasdfghjklzxcvbnm".includes(letter)
-                                            : wrongGuesses.includes(letter) || blanks.includes(letter)
+                                            : allGuesses.includes(letter)
                                     }
                                 >
                                     {letter}

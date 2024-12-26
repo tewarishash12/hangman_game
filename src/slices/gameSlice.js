@@ -7,7 +7,7 @@ const gameSlice = createSlice({
         currentWord: null,
         blanks:"",
         lives: 4,
-        wrongGuesses: [],
+        allGuesses: [],
         score: 0
     },
     reducers: {
@@ -22,9 +22,12 @@ const gameSlice = createSlice({
             } else if(state.score>0) {
                 state.lives += 1;
             }
-            state.wrongGuesses = [];
+            state.allGuesses = [];
         },
         check_word_guess: (state,{payload}) =>{
+            if(!state.allGuesses.includes(payload.guessedLetter))
+                state.allGuesses.push(payload.guessedLetter);
+            
             if(state.currentWord.word.includes(payload.guessedLetter)){
                 const blankArray = state.blanks.split(" ");
                 const activeWord = state.currentWord.word.split("");
@@ -36,9 +39,8 @@ const gameSlice = createSlice({
 
                 state.blanks = blankArray.join(' ');
             } else {
-                if(!state.wrongGuesses.includes(payload.guessedLetter)){
+                if(!state.allGuesses.includes(payload.guessedLetter)){
                     state.lives -= 1;
-                    state.wrongGuesses.push(payload.guessedLetter);
                 }
             }
         },

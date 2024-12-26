@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { initialize_game } from "../slices/gameSlice";
+import { initialize_game,restart_game } from "../slices/gameSlice";
 
 
 function HomePage() {
     const dispatch = useDispatch();
-
     return (
         <div className="flex h-full">
             <main className="flex-1 bg-gray-900 text-white p-8 overflow-auto h-full">
@@ -31,6 +30,7 @@ function HomePage() {
                                 to='/playgame'
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-8 rounded-full text-xl transition-all duration-300"
                                 onClick={() => {
+                                    dispatch(restart_game());
                                     dispatch(initialize_game())
                                 }}
                             >

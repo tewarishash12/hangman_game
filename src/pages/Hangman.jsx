@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { initialize_game, check_word_guess, check_game_won } from "../slices/gameSlice";
+import { initialize_game, check_word_guess, check_game_won, restart_game } from "../slices/gameSlice";
 
 function Hangman() {
     const dispatch = useDispatch();
@@ -29,9 +29,9 @@ function Hangman() {
                         <p>{blanks}</p>
                     </div>
 
-                    {currentWord && <div className="mb-4 text-2xl">
+                    <div className="mb-4 text-2xl">
                         <p>{currentWord.hint}</p>
-                    </div>}
+                    </div>
 
                     <div className="mb-6">
                         <p>{lives} lives left to find answer</p>
@@ -109,7 +109,7 @@ function Hangman() {
                                         dispatch(initialize_game())
                                     }}
                                 >
-                                    Play Again
+                                    Restart Game
                                 </button>
                             </>
                         }
@@ -117,12 +117,21 @@ function Hangman() {
                             <>
                                 <p className="text-blue-500 text-2xl font-bold">Congrats you guessed the correct word</p>
                                 <button
-                                    className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
+                                    className="mt-4 gap-y-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
                                     onClick={() => {
                                         dispatch(initialize_game())
                                     }}
                                 >
-                                    Play Again
+                                    Continue
+                                </button>
+                                <button
+                                    className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
+                                    onClick={() => {
+                                        dispatch(restart_game())
+                                        dispatch(initialize_game())
+                                    }}
+                                >
+                                    Restart Game
                                 </button>
                             </>
                         }

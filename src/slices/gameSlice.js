@@ -13,13 +13,15 @@ const gameSlice = createSlice({
     },
     reducers: {
         initialize_game: (state) => {
-            const avaliableWords = gameQues.filter(ques=> !state.usedWords.includes(ques.id));
+            const avaliableWords = gameQues.filter(ques => !state.usedWords.includes(ques.id));
 
             const randomWord = avaliableWords[Math.floor(Math.random() * avaliableWords.length)]
             state.currentWord = randomWord;
             state.usedWords.push(randomWord.id)
+
             const blankArray = Array(state.currentWord.word.length).fill("_");
             state.blanks = blankArray.join(" ");
+
             if (state.lives === 0) {
                 state.score = 0;
                 state.lives = 4;
@@ -51,15 +53,20 @@ const gameSlice = createSlice({
             if (!state.blanks.includes("_")) {
                 state.score += 1;
                 state.allGuesses = Array.from("qwertyuiopasdfghjklzxcvbnm");
-            } else if(state.lives===0){
+            } else if (state.lives === 0) {
                 state.allGuesses = Array.from("qwertyuiopasdfghjklzxcvbnm");
             }
         },
-        diabled_letters: (state) => {
-
+        restart_game: (state) => {
+            state.currentWord = null;
+            state.blanks = "";
+            state.lives = 4;
+            state.allGuesses = [];
+            state.score = 0;
+            state.usedWords = [];
         }
     }
 })
 
-export const { initialize_game, check_word_guess, check_game_won } = gameSlice.actions;
+export const { initialize_game, check_word_guess, check_game_won, restart_game } = gameSlice.actions;
 export default gameSlice.reducer

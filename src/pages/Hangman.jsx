@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { initialize_game, check_word_guess, check_game_won, restart_game } from "../slices/gameSlice";
+import { check_score } from "../slices/scoreSlice";
 
 function Hangman() {
     const dispatch = useDispatch();
@@ -29,9 +30,9 @@ function Hangman() {
                         <p>{blanks}</p>
                     </div>
 
-                    <div className="mb-4 text-2xl">
+                    {currentWord && <div className="mb-4 text-2xl">
                         <p>{currentWord.hint}</p>
-                    </div>
+                    </div>}
 
                     <div className="mb-6">
                         <p>{lives} lives left to find answer</p>
@@ -90,8 +91,7 @@ function Hangman() {
                                         }`}
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
-                                    disabled={allGuesses.includes(letter)
-                                    }
+                                    disabled={allGuesses.includes(letter)}
                                 >
                                     {letter}
                                 </button>
@@ -106,6 +106,7 @@ function Hangman() {
                                 <button
                                     className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
                                     onClick={() => {
+                                        dispatch(check_score({score:score}))
                                         dispatch(initialize_game())
                                     }}
                                 >

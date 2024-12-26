@@ -66,8 +66,8 @@ function Hangman() {
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
                                         ${allGuesses.includes(letter)
-                                                ? "bg-gray-500 cursor-not-allowed"
-                                                : "bg-blue-500 hover:bg-blue-600"
+                                            ? "bg-gray-500 cursor-not-allowed"
+                                            : "bg-blue-500 hover:bg-blue-600"
                                         }`}
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
@@ -85,8 +85,8 @@ function Hangman() {
                                     key={index}
                                     className={`py-2 px-4 rounded-md font-semibold
                                     ${allGuesses.includes(letter)
-                                                ? "bg-gray-500 cursor-not-allowed"
-                                                : "bg-blue-500 hover:bg-blue-600"
+                                            ? "bg-gray-500 cursor-not-allowed"
+                                            : "bg-blue-500 hover:bg-blue-600"
                                         }`}
                                     value={letter}
                                     onClick={(e) => guessedLetter(e.target.value)}
@@ -116,23 +116,26 @@ function Hangman() {
                         {lives > 0 && !blanks.includes("_") &&
                             <>
                                 <p className="text-blue-500 text-2xl font-bold">Congrats you guessed the correct word</p>
-                                <button
-                                    className="mt-4 gap-y-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
-                                    onClick={() => {
-                                        dispatch(initialize_game())
-                                    }}
-                                >
-                                    Continue
-                                </button>
-                                <button
-                                    className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
-                                    onClick={() => {
-                                        dispatch(restart_game())
-                                        dispatch(initialize_game())
-                                    }}
-                                >
-                                    Restart Game
-                                </button>
+                                <div className="space-x-4">
+                                    <button
+                                        className="mt-4 bg-green-500 hover:bg-green-600 py-2 px-6 rounded-md text-xl font-semibold"
+                                        onClick={() => {
+                                            dispatch(initialize_game());
+                                        }}
+                                    >
+                                        Continue
+                                    </button>
+                                    <button
+                                        className="bg-lime-400 hover:bg-lime-600 py-2 px-6 rounded-md text-xl font-semibold"
+                                        onClick={() => {
+                                            dispatch(restart_game());
+                                            dispatch(initialize_game());
+                                        }}
+                                    >
+                                        Restart Game
+                                    </button>
+                                </div>
+
                             </>
                         }
                     </div>

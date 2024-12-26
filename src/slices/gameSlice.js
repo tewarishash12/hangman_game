@@ -8,17 +8,22 @@ const gameSlice = createSlice({
         blanks: "",
         lives: 4,
         allGuesses: [],
-        score: 0
+        score: 0,
+        usedWords: []
     },
     reducers: {
         initialize_game: (state) => {
-            const randomWord = gameQues[Math.floor(Math.random() * gameQues.length)]
+            const avaliableWords = gameQues.filter(ques=> !state.usedWords.includes(ques.id));
+
+            const randomWord = avaliableWords[Math.floor(Math.random() * avaliableWords.length)]
             state.currentWord = randomWord;
+            state.usedWords.push(randomWord.id)
             const blankArray = Array(state.currentWord.word.length).fill("_");
             state.blanks = blankArray.join(" ");
             if (state.lives === 0) {
                 state.score = 0;
                 state.lives = 4;
+                state.usedWords = [];
             } else if (state.score > 0) {
                 state.lives += 1;
             }
